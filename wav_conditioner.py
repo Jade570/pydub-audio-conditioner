@@ -1,7 +1,6 @@
 import os
 import sys
 import argparse
-import numpy as np
 from pydub import AudioSegment
 
 DIR = "../"
@@ -13,18 +12,23 @@ EXTENSION = "wav"
 def get_arguments():
     parser = argparse.ArgumentParser(description='Wav file conditioner for training dataset')
     parser.add_argument('--dir', type=str, default=DIR, help='The directory you will store the conditioned files at. Default: '+DIR+'.')
-    parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+SAMPLERATE+'.')
-    parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+BITRATE+'.')
-    parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to trim files as. Default: '+SEC+'.')
+    parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+str(SAMPLERATE)+'.')
+    parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+str(BITRATE)+'.')
+    parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to trim files as. Default: '+str(SEC)+'.')
     parser.add_argument('--extension', type=str, default=EXTENSION, help='Extension you want the conditioned files to have, Default :'+EXTENSION+'.')
+    return parser.parse_args()
 
 
 def downsample(input_wav, resample_sr): #write the samplerate you want to resample as
+    args = get_arguments()
+
     audio = AudioSegment.from_wav(input_wav)
     audio = audio.set_frame_rate(resample_sr)
     return audio
 
 def splitsize(songnum, trimnum, audio, t1, size):
+    args = get_arguments()
+
     _dir = args.dir
     _extension = args.extension
     _bitrate = args.bitrate
@@ -37,6 +41,8 @@ def splitsize(songnum, trimnum, audio, t1, size):
     return t1
 
 def splitaudio(songnum, trimnum, audio):
+    args = get_arguments()
+
     t1 = 0
     t2 = 0
     n = trimnum
@@ -46,6 +52,8 @@ def splitaudio(songnum, trimnum, audio):
         n += 1 
 
 def main():
+    args = get_arguments()
+
     song = 0
     _samplerate = args.samplerate
     _ext = args.extension
