@@ -1,2 +1,4 @@
 numpy==1.14.5
 pydub==0.24.1
+ffmpeg==1.4
+ffprobe==0.5

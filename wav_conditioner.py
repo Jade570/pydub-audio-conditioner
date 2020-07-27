@@ -8,6 +8,7 @@ SAMPLERATE = 24000
 BITRATE = 16
 SEC = 5000
 EXTENSION = "wav"
+#AudioSegment.converter = 'path/to/ffmpeg.exe'
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Wav file conditioner for training dataset')
