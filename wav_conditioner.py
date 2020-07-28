@@ -17,7 +17,7 @@ def get_arguments():
     parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+str(SAMPLERATE)+'.')
     parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+str(BITRATE)+'.')
     parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to trim files as. Default: '+str(SEC)+'.')
-    parser.add_argument('--extension', type=str, default=EXTENSION, help='Extension you want the conditioned files to have. Default :'+EXTENSION+'.')
+    parser.add_argument('--extension', type=str, default=EXTENSION, help='Extension you want the conditioned files to have. Default: '+EXTENSION+'.')
     return parser.parse_args()
 
 
