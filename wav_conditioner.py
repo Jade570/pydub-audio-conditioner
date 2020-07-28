@@ -3,7 +3,7 @@ import sys
 import argparse
 from pydub import AudioSegment
 
-DIR = "../"
+DIR = "./"
 SAMPLERATE = 24000
 BITRATE = 16
 SEC = 5000
@@ -12,7 +12,8 @@ EXTENSION = "wav"
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Wav file conditioner for training dataset')
-    parser.add_argument('--dir', type=str, default=DIR, help='The directory you will store the conditioned files at. Default: '+DIR+'.')
+    parser.add_argument('--targetdir', type=str, default=DIR, help='The directory you will store the conditioned files at. Default: '+DIR+'.')
+    parser.add_argument('--sourcedir', type=str, default='.', help='The directory you have your original wave files at. Default: current directory.')
     parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+str(SAMPLERATE)+'.')
     parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+str(BITRATE)+'.')
     parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to trim files as. Default: '+str(SEC)+'.')
@@ -30,10 +31,13 @@ def downsample(input_wav, resample_sr): #write the samplerate you want to resamp
 def splitsize(songnum, trimnum, audio, t1, size):
     args = get_arguments()
 
-    _dir = args.dir
+    _dir = args.targetdir
     _extension = args.extension
     _bitrate = args.bitrate
-    name = _dir+str(songnum)+"-"+str(trimnum)+"."+_extension
+    if _dir.endswith('/'):
+        name = _dir+str(songnum)+"-"+str(trimnum)+"."+_extension
+    else:
+        name = _dir+'/'+str(songnum)+"-"+str(trimnum)+"."+_extension
     t2 = t1 + size
     newAudio = audio
     newAudio = newAudio[t1:t2]
@@ -57,13 +61,19 @@ def main():
 
     song = 0
     _samplerate = args.samplerate
+    _source = args.sourcedir
     _ext = args.extension
-    for root, dirs, files in os.walk("."):
+    for root, dirs, files in os.walk(_source):
         for filename in files:
             if filename.endswith("."+_ext):
-                splitaudio(song, 0, downsample(filename, _samplerate))
-                print(song)
-                song += 1
+                if _source.endswith('/'):
+                    splitaudio(song, 0, downsample(_source+filename, _samplerate))
+                    print(song)
+                    song += 1
+                else:
+                    splitaudio(song, 0, downsample(_source+'/'+filename, _samplerate))
+                    print(song)
+                    song += 1
 
 
 if __name__ == '__main__':
