@@ -16,7 +16,7 @@ $ cd pydub-audio-conditioner
 
 $ pip install -r requirements.txt
 
-$ python wav_conditioner.py --sourcedir=/path/to/original/sources --
+$ python wav_conditioner.py --sourcedir=/path/to/original/sources
 
 ```
 
