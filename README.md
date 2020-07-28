@@ -28,7 +28,7 @@ $ python wav_conditioner.py
 #every arguments are set to default
 
 $ python wav_conditioner.py --seconds=15000
-#split audio files into 15000milliseconds(1.5seconds)
+#split audio files into 15000milliseconds(15seconds)
 ```
 
 ### 1. `--targetdir`  
