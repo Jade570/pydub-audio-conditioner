@@ -12,7 +12,7 @@ EXTENSION = "wav"
 
 def get_arguments():
     parser = argparse.ArgumentParser(description='Wav file conditioner for training dataset')
-    parser.add_argument('--targetdir', type=str, default=DIR, help='The directory you will store the conditioned files at. Default: '+DIR+'.')
+    parser.add_argument('--targetdir', type=str, default=DIR, help='The directory you will store the conditioned files at. Default: current directory.')
     parser.add_argument('--sourcedir', type=str, default='.', help='The directory you have your original wave files at. Default: current directory.')
     parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+str(SAMPLERATE)+'.')
     parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+str(BITRATE)+'.')
