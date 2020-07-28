@@ -16,7 +16,7 @@ def get_arguments():
     parser.add_argument('--sourcedir', type=str, default='.', help='The directory you have your original wave files at. Default: current directory.')
     parser.add_argument('--samplerate', type=int, default=SAMPLERATE, help='Sample rate you want to condition files as. Default: '+str(SAMPLERATE)+'.')
     parser.add_argument('--bitrate', type=int, default=BITRATE, help='Bit rate you want to condition files as. Defualt: '+str(BITRATE)+'.')
-    parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to trim files as. Default: '+str(SEC)+'.')
+    parser.add_argument('--seconds', type=int, default=SEC, help='How many seconds you want to split files as. Default: '+str(SEC)+'.')
     parser.add_argument('--extension', type=str, default=EXTENSION, help='Extension you want the conditioned files to have. Default: '+EXTENSION+'.')
     return parser.parse_args()
 
@@ -28,16 +28,16 @@ def downsample(input_wav, resample_sr): #write the samplerate you want to resamp
     audio = audio.set_frame_rate(resample_sr)
     return audio
 
-def splitsize(songnum, trimnum, audio, t1, size):
+def splitsize(songnum, splitnum, audio, t1, size):
     args = get_arguments()
 
     _dir = args.targetdir
     _extension = args.extension
     _bitrate = args.bitrate
     if _dir.endswith('/'):
-        name = _dir+str(songnum)+"-"+str(trimnum)+"."+_extension
+        name = _dir+str(songnum)+"-"+str(splitnum)+"."+_extension
     else:
-        name = _dir+'/'+str(songnum)+"-"+str(trimnum)+"."+_extension
+        name = _dir+'/'+str(songnum)+"-"+str(splitnum)+"."+_extension
     t2 = t1 + size
     newAudio = audio
     newAudio = newAudio[t1:t2]
@@ -45,12 +45,12 @@ def splitsize(songnum, trimnum, audio, t1, size):
     t1 = t2
     return t1
 
-def splitaudio(songnum, trimnum, audio):
+def splitaudio(songnum, splitnum, audio):
     args = get_arguments()
 
     t1 = 0
     t2 = 0
-    n = trimnum
+    n = splitnum
     seconds = args.seconds
     while t1+seconds < len(audio): #while the file is not at the end
         t1 = splitsize(songnum, n, audio, t1, seconds)
